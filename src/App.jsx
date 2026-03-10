@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 const ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages";
+const API_KEY = import.meta.env.VITE_ANTHROPIC_API_KEY;
 
 const fonts = `@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap');`;
 
@@ -308,11 +309,7 @@ const styles = `
     margin-bottom: 6px;
   }
 
-  .metric-val {
-    font-size: 18px;
-    font-weight: 700;
-    color: #fff;
-  }
+  .metric-val { font-size: 18px; font-weight: 700; color: #fff; }
 
   .metric-val span {
     font-size: 11px;
@@ -535,7 +532,12 @@ STEP 3 — [Action Title]
     try {
       const res = await fetch(ANTHROPIC_API_URL, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": API_KEY,
+          "anthropic-version": "2023-06-01",
+          "anthropic-dangerous-direct-browser-access": "true",
+        },
         body: JSON.stringify({
           model: "claude-sonnet-4-20250514",
           max_tokens: 1000,
